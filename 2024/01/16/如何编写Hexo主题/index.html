@@ -1,0 +1,390 @@
+<!DOCTYPE html><html lang="en" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>如何编写Hexo主题 | dBevil小记</title><meta name="author" content="dBevil"><meta name="copyright" content="dBevil"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="最开始折腾Hexo的时候感觉这东西很神奇，通过他和github搭配就能生成免费的静态博客，而且还有丰富的主题可以选择，当我刚入Hexo的时候默认主题是landscape，后来又使用过NexT，是一款很漂亮的主题，但是除此之外，还有很多好看的主题，我很好奇这些主题都是怎么写出来的，于是乎就仿照landscape主题开始研究，写自己的主题，也就是我自己的博客正在用的主题，项目地址在这里。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="如何编写Hexo主题">
+<meta property="og:url" content="http://dbevil.top/2024/01/16/%E5%A6%82%E4%BD%95%E7%BC%96%E5%86%99Hexo%E4%B8%BB%E9%A2%98/index.html">
+<meta property="og:site_name" content="dBevil小记">
+<meta property="og:description" content="最开始折腾Hexo的时候感觉这东西很神奇，通过他和github搭配就能生成免费的静态博客，而且还有丰富的主题可以选择，当我刚入Hexo的时候默认主题是landscape，后来又使用过NexT，是一款很漂亮的主题，但是除此之外，还有很多好看的主题，我很好奇这些主题都是怎么写出来的，于是乎就仿照landscape主题开始研究，写自己的主题，也就是我自己的博客正在用的主题，项目地址在这里。">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png">
+<meta property="article:published_time" content="2024-01-16T03:46:38.000Z">
+<meta property="article:modified_time" content="2024-01-16T03:47:38.210Z">
+<meta property="article:author" content="dBevil">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://dbevil.top/2024/01/16/%E5%A6%82%E4%BD%95%E7%BC%96%E5%86%99Hexo%E4%B8%BB%E9%A2%98/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"><link rel="preconnect" href="//busuanzi.ibruce.info"><link rel="stylesheet" href="/css/index.css?v=4.12.0"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.1/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.32/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: 'Copy Successful',
+    error: 'Copy Error',
+    noSupport: 'Browser Not Supported'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: 'Just now',
+    min: 'minutes ago',
+    hour: 'hours ago',
+    day: 'days ago',
+    month: 'months ago'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.11.0/dist/infinitegrid.min.js',
+    buttonText: 'Load More'
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '如何编写Hexo主题',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2024-01-16 11:47:38'
+}</script><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+        if (t === 'dark') activateDarkMode()
+        else if (t === 'light') activateLightMode()
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><link rel="stylesheet" href="/css/modify.css"><link rel="stylesheet" href="/css/mycss.css"><meta name="generator" content="Hexo 7.0.0"></head><body><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">9</div></a><a href="/tags/"><div class="headline">Tags</div><div class="length-num">0</div></a><a href="/categories/"><div class="headline">Categories</div><div class="length-num">0</div></a></div><hr class="custom-hr"></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header"><nav id="nav"><span id="blog-info"><a href="/" title="dBevil小记"><span class="site-name">dBevil小记</span></a></span><div id="menus"><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">如何编写Hexo主题</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">Created</span><time class="post-meta-date-created" datetime="2024-01-16T03:46:38.000Z" title="Created 2024-01-16 11:46:38">2024-01-16</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">Updated</span><time class="post-meta-date-updated" datetime="2024-01-16T03:47:38.210Z" title="Updated 2024-01-16 11:47:38">2024-01-16</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="如何编写Hexo主题"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">Post Views:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><p>最开始折腾Hexo的时候感觉这东西很神奇，通过他和github搭配就能生成免费的静态博客，而且还有丰富的主题可以选择，当我刚入Hexo的时候默认主题是<code>landscape</code>，后来又使用过<code>NexT</code>，是一款很漂亮的主题，但是除此之外，还有很多好看的主题，我很好奇这些主题都是怎么写出来的，于是乎就仿照<code>landscape</code>主题开始研究，写自己的主题，也就是<a target="_blank" rel="noopener" href="http://www.showonne.com/">我自己的博客</a>正在用的主题，项目地址在<a target="_blank" rel="noopener" href="https://github.com/showonne/hexo_showonne">这里</a>。</p>
+<span id="more"></span>
+
+<p>完成一个Hexo的主题其实很简单，和写静态页面差不多，只是内容部分通过Hexo的变量去获取，而且Hexo还内置了一些辅助函数帮你快速方便地完成繁琐的处理。</p>
+<!-- more -->
+
+<h2 id="起步"><a href="#起步" class="headerlink" title="起步"></a>起步</h2><p>在写代码之前要先把项目结构搭建好，一个Hexo主题的项目名就是主题名字本身，项目内的目录结构如下: (生成树形图是用的<code>tree</code>， mac上直接<code>brew install tree</code>就可以了，以前不写都不知道囧)</p>
+<pre><code>.
+├── _config.yml   //记录主题配置信息
+├── layout        //存放布局模板文件
+│&nbsp;&nbsp; └── _partial  //布局文件中可共用的模板
+└── source        //静态资源文件夹
+    ├── css
+    ├── fonts
+    ├── js
+    └── sass
+</code></pre>
+<p>项目结构搞好就可以开始写代码了!因为当初我是仿<code>landscape</code>写的，而且<code>ejs</code>也是我之前看nodejs时就接触过的，因此就直接用ejs写模板文件了，样式使用了<code>sass (scss</code>。</p>
+<h2 id="布局"><a href="#布局" class="headerlink" title="布局"></a>布局</h2><h4 id="编写布局文件-layout-ejs"><a href="#编写布局文件-layout-ejs" class="headerlink" title="编写布局文件(layout.ejs)"></a>编写布局文件(layout.ejs)</h4><p>模板文件在<code>layout</code>文件夹下，文件名对应Hexo中的模板名，有<code>index</code>,<code>post</code>,<code>page</code>,<code>archive</code>,<code>category</code>,<code>tag</code>几种，对于普通的<code>header + content + footer</code>的页面结构，<code>header</code>和<code>footer</code>往往是可以复用的，因此我们可以使用<code>layout.ejs</code>进行布局，动态的内容使用<code>body</code>变量去动态渲染，所以我的<code>layout.ejs</code>大概长这样:</p>
+<pre><code>&lt;!doctype html&gt;
+&lt;html lang="en"&gt;
+&lt;head&gt;
+    &lt;meta charset="UTF-8"&gt;
+    &lt;meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"/&gt;
+    &lt;title&gt;&lt;%= config.title %&gt;&lt;/title&gt;
+    &lt;%- css('css/style') %&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;%- partial('_partial/header') %&gt;
+    &lt;div class="main"&gt;
+        &lt;%- body %&gt;
+    &lt;/div&gt;
+    &lt;%- partial('_partial/footer') %&gt;
+    &lt;%- js('js/index.js') %&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<p><code>partial</code>,<code>js</code>和<code>css</code>是Hexo提供的辅助函数，后面再说。</p>
+<h4 id="其他模板文件"><a href="#其他模板文件" class="headerlink" title="其他模板文件"></a>其他模板文件</h4><p>每一个模板文件对应的是一种布局，当你使用<code>hexo new &lt;title&gt;</code>的时候，其实忽略了一个参数，完整的命令是<code>hexo new [layout] &lt;title&gt;</code>，这个<code>layout</code>就决定了文章使用何种方式布局，比如创建一个自己简介的About页面，<code>hexo new page "about"</code>其实就是使用了page布局。每种布局对应到我们的模板文件上就是<code>index.ejs(首页)</code>,<code>post.ejs(文章)</code>,<code>archive.ejs(归档)</code>,<code>tag.ejs(标签归档)</code>,<code>page.ejs(分页)</code>。</p>
+<p>如果更直观一点，url和模板的对应关系是这样的:</p>
+<table>
+<thead>
+<tr>
+<th>Url</th>
+<th>Description</th>
+<th>Layout</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>/</td>
+<td>首页</td>
+<td>index.ejs</td>
+</tr>
+<tr>
+<td>/yyyy/mm/dd/:title/</td>
+<td>文章</td>
+<td>post.ejs</td>
+</tr>
+<tr>
+<td>/archives/</td>
+<td>归档</td>
+<td>archive.ejs</td>
+</tr>
+<tr>
+<td>/tags/:tagname/</td>
+<td>某个标签的归档</td>
+<td>tag.ejs</td>
+</tr>
+<tr>
+<td>/:else/</td>
+<td>其他</td>
+<td>page.ejs</td>
+</tr>
+</tbody></table>
+<h4 id="index-ejs"><a href="#index-ejs" class="headerlink" title="index.ejs"></a>index.ejs</h4><p>首页一般是一些博文的摘要和一个分页器，通过Hexo的<code>page</code>变量拿到页面的数据渲染即可，这里我们不直接在<code>index.ejs</code>中写HTML结构，新建一个<code>_partial/article.ejs</code>，将文章数据传给子模板渲染，然后再额外传入一个参数<code>{index: true}</code>，对后面的<code>post.ejs</code>和<code>page.ejs</code>加以区分，让子模板能正确渲染。最后，index.ejs大致是这样的:</p>
+<pre><code>//index.ejs
+&lt;% page.posts.each(function(post, index){ %&gt;
+    &lt;%- partial('_partial/article', {index: true, post: post}) %&gt;
+&lt;% }) %&gt;
+&lt;div class="pagination"&gt;
+    &lt;%- paginator({ total: Math.ceil(site.posts.length / config.per_page)}) %&gt;
+&lt;/div&gt;
+</code></pre>
+<h4 id="post-ejs"><a href="#post-ejs" class="headerlink" title="post.ejs"></a>post.ejs</h4><p>文章模板和首页差不多，只是对应的是一篇具体的文章，所以就把文章传入，再额外传入<code>{index: false}</code>告诉子模板不要按首页的方式去渲染就好了。就一行代码(因为都在子模板里 XD</p>
+<pre><code>//post.ejs
+&lt;%- partial('_partial/article', {index: false, post: page}) %&gt;
+</code></pre>
+<h4 id="page-ejs"><a href="#page-ejs" class="headerlink" title="page.ejs"></a>page.ejs</h4><p>我个人对Page模板其实是有点懵逼的，在我自己的实践中是添加<code>about</code>(<code>hexo new page "about"</code>)页面后，访问<code>/about</code>会走分页布局，实际上这个页面对应的内容是<code>/source/about</code>里的<code>index.md</code>，也相当于对文章的渲染，因此我把Page模板也写成了和文章模板一样:</p>
+<pre><code>//page.ejs
+&lt;%- partial('_partial/article', {index: false, post: page}) %&gt;
+</code></pre>
+<h4 id="partial-article-ejs"><a href="#partial-article-ejs" class="headerlink" title="_partial/article.ejs"></a>_partial/article.ejs</h4><p>前面一共有三处共用了article模板，另外page和post的一样的，所以实际上只有两种情况:主页(<code>index: true</code>)和非主页(<code>index: false</code>)。对应的<code>_partial/article.ejs</code>里只要判断这个值就可以正确渲染了，基本结构如下：</p>
+<pre><code>//_partial/article.ejs
+&lt;% if(index){ %&gt;
+    //index logic...
+&lt;% }else{ %&gt;
+    //post or page logic...
+&lt;% } %&gt;
+</code></pre>
+<h4 id="tag-ejs"><a href="#tag-ejs" class="headerlink" title="tag.ejs"></a>tag.ejs</h4><p>标签归档页内容很少，直接用Hexo的辅助函数<code>list_tags</code>生成一个标签的列表就ok了:</p>
+<pre><code>//tag.ejs
+&lt;%- list_tags() %&gt;
+</code></pre>
+<p>归档页模板和首页差不多，归档页只需要展示文章标题和最后的分页器就好:</p>
+<pre><code>//archive.ejs
+&lt;div class="archive"&gt;
+  &lt;% var lastyear; %&gt;
+  &lt;% page.posts.each(function(post){ %&gt;
+    &lt;% var year = post.date.year() %&gt;
+    &lt;% if(lastyear !== year){ %&gt;
+      &lt;h4 class="year"&gt;&lt;%= year %&gt;&lt;/h4&gt;
+      &lt;% lastyear = year %&gt;
+    &lt;% } %&gt;
+    &lt;div class="archive_item"&gt;
+      &lt;a class="title" href="&lt;%- url_for(post.path) %&gt;"&gt;&lt;%= post.title %&gt;&lt;/a&gt;
+      &lt;span class="date"&gt;&lt;%= post.date.format('YYYY-MM-DD') %&gt;&lt;/span&gt;
+    &lt;/div&gt;
+  &lt;% }) %&gt;
+  &lt;div class="pagination"&gt;
+    &lt;%- paginator({ total: Math.ceil(site.posts.length / config.per_page)}) %&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+</code></pre>
+<p>至此，模板文件就写好了，对于<code>category </code>模板就放弃了，感觉比较鸡肋。。。</p>
+<h2 id="变量"><a href="#变量" class="headerlink" title="变量"></a>变量</h2><p>其实在模板文件中我们已经看到了<code>page.post</code>,<code>site.posts.length</code>,<code>config.per_page</code>等等，页面的内容就是根据这些变量获取的，由Hexo提供，拿来直接用，Hexo提供了很多变量，但不是都很常用，一般就用到以下变量:</p>
+<ul>
+<li><code>site</code>: 对应整个网站的变量，一般会用到<code>site.posts.length</code>制作分页器</li>
+<li><code>page</code>: 对应当前页面的信息，例如我在<code>index.ejs</code>中使用<code>page.posts</code>获取了当前页面的所有文章而不是使用<code>site.posts</code>。</li>
+<li><code>config</code>: 博客的配置信息，博客根目录下的<code>_config.yml</code>。</li>
+<li><code>theme</code>: 主题的配置信息，对于主题根目录下的<code>_config.yml</code>。</li>
+</ul>
+<h2 id="辅助函数-Helper"><a href="#辅助函数-Helper" class="headerlink" title="辅助函数(Helper)"></a>辅助函数(Helper)</h2><p>制作一个分页器，我们需要知道文章的总数和每页展示的文章数，然后通过循环生成每个link标签，还要根据当前页面判断link标签的active状态，但是在Hexo中这些都不用我们自己来做了!Hexo提供了<code>paginator</code>这一辅助函数帮助我们生成分页器，只需要将文章总数<code>site.posts.length</code>和每页文章数<code>config.per_page</code>传入就可以生成了。</p>
+<h4 id="其他的Helper"><a href="#其他的Helper" class="headerlink" title="其他的Helper:"></a>其他的Helper:</h4><ul>
+<li><code>list_tags([options])</code>: 快速生成标签列表</li>
+<li><code>js(path/to/js)</code>, <code>css(path/to/css)</code> 用来载入静态资源，path可以是字符串或数组(载入多个资源)，默认会去<code>source</code>文件夹下去找。</li>
+<li><code>partial(path/to/partial)</code> 引用字模板，默认会去<code>layout</code>文件夹下找。</li>
+</ul>
+<h2 id="样式"><a href="#样式" class="headerlink" title="样式"></a>样式</h2><p>知道了Hexo的渲染方式，我们就可以使用HTML标签+CSS样式个性化我们的主题了，推荐大家使用CSS预处理语言的一种来写样式，这样就可以通过预处理语言自身的特点让样式更灵活。</p>
+<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><h4 id="添加对多说和Disqus的支持"><a href="#添加对多说和Disqus的支持" class="headerlink" title="添加对多说和Disqus的支持"></a>添加对多说和Disqus的支持</h4><p>评论是很常用的功能，不如就直接在我们的主题里支持了，然后通过配置变量决定是否开启，评论区跟在文章内容下面，对于这种三方的代码块，最好也以<code>partial</code>的方式提取出来，方便移除或是替换。</p>
+<pre><code>//_partial/article.ejs
+&lt;section class='post-content'&gt;
+    &lt;%- post.content %&gt;
+&lt;/section&gt;
+//评论部分，post.comments判断是否开启评论，config.duoshuo_shortname
+和config.disqus_shortname来判断启用那种评论插件，这里优先判断了多说
+&lt;% if(post.comments){ %&gt;
+    &lt;section id="comments"&gt;
+    &lt;% if (config.duoshuo_shortname){ %&gt;
+            &lt;%- partial('_partial/duoshuo') %&gt;
+        &lt;% }else if(config.disqus_shortname){ %&gt;
+            &lt;%- partial('_partial/disqus') %&gt;
+        &lt;% } %&gt;
+    &lt;/section&gt;
+&lt;% } %&gt;
+</code></pre>
+<p>再将多说和Disqus提供的js脚本代码放在<code>_partial/duoshuo.ejs</code>和<code>_partial/disqus.ejs</code>下就ok了~</p>
+<h4 id="使用highlight-js提供代码高亮"><a href="#使用highlight-js提供代码高亮" class="headerlink" title="使用highlight.js提供代码高亮"></a>使用highlight.js提供代码高亮</h4><p>highlight.js提供了多种语言的支持和多种皮肤，用法也很简单，载入文件后调用初始化方法，一切都帮你搞定，对于使用那种皮肤，喜好因人而异，我们干脆在主题的配置文件中做成配置项让用户自己选择:</p>
+<pre><code>//showonne/_config.yml
+...other configs
+
+# highlight.js
+highlight_theme: zenburn
+</code></pre>
+<p>对应的<code>layout.ejs</code>中:</p>
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.4.0/styles/<%= theme.highlight_theme %>.min.css">
+
+<p>样式文件通过CDN引入，因为不同皮肤对应不同的文件名，所以十分灵活。</p>
+<h2 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h2><p>当初是对应着<code>landscape</code>照葫芦画瓢写的，最近回头来发现一些不合理的地方，所以就又改了改，也对应着写了这么一篇总结，接下来准备再把样式划分一下，对于颜色这类样式通过变量的方式提取出来，也变得可配置，能让主题更灵活一些。</p>
+<h4 id="参考资源"><a href="#参考资源" class="headerlink" title="参考资源"></a>参考资源</h4><p><a target="_blank" rel="noopener" href="https://hexo.io/zh-cn/api/helper.html">了解辅助函数</a><br><a target="_blank" rel="noopener" href="https://hexo.io/zh-cn/docs/templates.html">模板</a><br><a target="_blank" rel="noopener" href="https://hexo.io/zh-cn/docs/variables.html">Hexo中的变量</a><br><a target="_blank" rel="noopener" href="https://hexo.io/themes/">Hexo主题列表</a><br><a target="_blank" rel="noopener" href="http://dev.duoshuo.com/threads/541d3b2b40b5abcd2e4df0e9">Hexo使用多说教程</a><br><a target="_blank" rel="noopener" href="https://highlightjs.org/usage/">How to use highlight.js</a></p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>Author: </span><span class="post-copyright-info"><a href="http://dbevil.top">dBevil</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>Link: </span><span class="post-copyright-info"><a href="http://dbevil.top/2024/01/16/%E5%A6%82%E4%BD%95%E7%BC%96%E5%86%99Hexo%E4%B8%BB%E9%A2%98/">http://dbevil.top/2024/01/16/%E5%A6%82%E4%BD%95%E7%BC%96%E5%86%99Hexo%E4%B8%BB%E9%A2%98/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>Copyright Notice: </span><span class="post-copyright-info">All articles in this blog are licensed under <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> unless stating additionally.</span></div></div><div class="tag_share"><div class="post-meta__tag-list"></div><div class="post_share"><div class="social-share" data-image="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/js/social-share.min.js" defer=""></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2024/01/16/chrome%E6%8F%92%E4%BB%B6%E5%BC%80%E5%8F%91%E7%AE%80%E4%BB%8B%EF%BC%88%E4%B8%80%EF%BC%89%E2%80%94%E2%80%94%E5%BC%80%E5%8F%91%E5%85%A5%E9%97%A8/" title="chrome插件开发简介（一）——开发入门"><div class="cover" style="background: var(--default-bg-color)"></div><div class="pagination-info"><div class="label">Previous</div><div class="prev_info">chrome插件开发简介（一）——开发入门</div></div></a></div><div class="next-post pull-right"><a href="/2024/01/15/Introduction/" title="Introduction"><div class="cover" style="background: var(--default-bg-color)"></div><div class="pagination-info"><div class="label">Next</div><div class="next_info">Introduction</div></div></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"></div><div class="author-info__name">dBevil</div><div class="author-info__description"></div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">9</div></a><a href="/tags/"><div class="headline">Tags</div><div class="length-num">0</div></a><a href="/categories/"><div class="headline">Categories</div><div class="length-num">0</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>Announcement</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>Contents</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%B5%B7%E6%AD%A5"><span class="toc-number">1.</span> <span class="toc-text">起步</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B8%83%E5%B1%80"><span class="toc-number">2.</span> <span class="toc-text">布局</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%BC%96%E5%86%99%E5%B8%83%E5%B1%80%E6%96%87%E4%BB%B6-layout-ejs"><span class="toc-number">2.0.1.</span> <span class="toc-text">编写布局文件(layout.ejs)</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%85%B6%E4%BB%96%E6%A8%A1%E6%9D%BF%E6%96%87%E4%BB%B6"><span class="toc-number">2.0.2.</span> <span class="toc-text">其他模板文件</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#index-ejs"><span class="toc-number">2.0.3.</span> <span class="toc-text">index.ejs</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#post-ejs"><span class="toc-number">2.0.4.</span> <span class="toc-text">post.ejs</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#page-ejs"><span class="toc-number">2.0.5.</span> <span class="toc-text">page.ejs</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#partial-article-ejs"><span class="toc-number">2.0.6.</span> <span class="toc-text">_partial/article.ejs</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#tag-ejs"><span class="toc-number">2.0.7.</span> <span class="toc-text">tag.ejs</span></a></li></ol></li></ol><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%98%E9%87%8F"><span class="toc-number">3.</span> <span class="toc-text">变量</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BE%85%E5%8A%A9%E5%87%BD%E6%95%B0-Helper"><span class="toc-number">4.</span> <span class="toc-text">辅助函数(Helper)</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%85%B6%E4%BB%96%E7%9A%84Helper"><span class="toc-number">4.0.1.</span> <span class="toc-text">其他的Helper:</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A0%B7%E5%BC%8F"><span class="toc-number">5.</span> <span class="toc-text">样式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%B6%E4%BB%96"><span class="toc-number">6.</span> <span class="toc-text">其他</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%B7%BB%E5%8A%A0%E5%AF%B9%E5%A4%9A%E8%AF%B4%E5%92%8CDisqus%E7%9A%84%E6%94%AF%E6%8C%81"><span class="toc-number">6.0.1.</span> <span class="toc-text">添加对多说和Disqus的支持</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8highlight-js%E6%8F%90%E4%BE%9B%E4%BB%A3%E7%A0%81%E9%AB%98%E4%BA%AE"><span class="toc-number">6.0.2.</span> <span class="toc-text">使用highlight.js提供代码高亮</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9C%80%E5%90%8E"><span class="toc-number">7.</span> <span class="toc-text">最后</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%BA%90"><span class="toc-number">7.0.1.</span> <span class="toc-text">参考资源</span></a></li></ol></li></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>Recent Post</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/01/16/chrome%E6%8F%92%E4%BB%B6%E5%BC%80%E5%8F%91%E7%AE%80%E4%BB%8B%EF%BC%88%E4%BA%8C%EF%BC%89%E2%80%94%E2%80%94%E5%A6%82%E4%BD%95%E6%B7%BB%E2%80%9C%E5%8A%A0%E6%B5%8F%E8%A7%88%E5%99%A8%E6%89%A9%E5%B1%95%E7%99%BD%E5%90%8D%E5%8D%95%E2%80%9D/" title="chrome插件开发简介（二）——如何添“加浏览器扩展白名单”">chrome插件开发简介（二）——如何添“加浏览器扩展白名单”</a><time datetime="2024-01-16T03:48:47.000Z" title="Created 2024-01-16 11:48:47">2024-01-16</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/01/16/chrome%E6%8F%92%E4%BB%B6%E5%BC%80%E5%8F%91%E7%AE%80%E4%BB%8B%EF%BC%88%E4%B8%80%EF%BC%89%E2%80%94%E2%80%94%E5%BC%80%E5%8F%91%E5%85%A5%E9%97%A8/" title="chrome插件开发简介（一）——开发入门">chrome插件开发简介（一）——开发入门</a><time datetime="2024-01-16T03:48:04.000Z" title="Created 2024-01-16 11:48:04">2024-01-16</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/01/16/%E5%A6%82%E4%BD%95%E7%BC%96%E5%86%99Hexo%E4%B8%BB%E9%A2%98/" title="如何编写Hexo主题">如何编写Hexo主题</a><time datetime="2024-01-16T03:46:38.000Z" title="Created 2024-01-16 11:46:38">2024-01-16</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/01/15/Introduction/" title="Introduction">Introduction</a><time datetime="2024-01-15T13:25:07.000Z" title="Created 2024-01-15 21:25:07">2024-01-15</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/01/07/%E5%8E%86%E5%8F%B2%E6%9B%B4%E6%96%B0%E8%AF%B4%E6%98%8E-HbuildX/" title="历史更新说明-HbuildX">历史更新说明-HbuildX</a><time datetime="2024-01-07T09:46:19.000Z" title="Created 2024-01-07 17:46:19">2024-01-07</time></div></div></div></div></div></div></main><footer id="footer" style="background: transparent"><div id="footer-wrap"><div class="copyright">©2020 - 2024 By dBevil</div><div class="framework-info"><span>Framework </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>Theme </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="framework-info"><img src="https://www.mintimate.cn/img/police_beian.png"><span> </span><a target="_blank" rel="noopener" href="https://beian.miit.gov.cn/">滇ICP备2024017407号-1</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="Read Mode"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="Toggle Between Light And Dark Mode"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="Toggle between Single-column and Double-column"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="Setting"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="Table Of Contents"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="Back To Top"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=4.12.0"></script><script src="/js/main.js?v=4.12.0"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.32/dist/fancybox/fancybox.umd.min.js"></script><div class="js-pjax"></div><div class="aplayer no-destroy" data-id="6912250275" data-server="netease" data-type="playlist" data-fixed="true" data-autoplay="true" data-lrctype="-1"> </div><canvas class="fireworks" mobile="false"></canvas><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/dist/fireworks.min.js"></script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/metingjs/dist/Meting.min.js"></script><script src="https://cdn.jsdelivr.net/npm/pjax@0.2.8/pjax.min.js"></script><script>let pjaxSelectors = ["head > title","#config-diff","#body-wrap","#rightside-config-hide","#rightside-config-show",".js-pjax"]
+
+var pjax = new Pjax({
+  elements: 'a:not([target="_blank"])',
+  selectors: pjaxSelectors,
+  cacheBust: false,
+  analytics: false,
+  scrollRestoration: false
+})
+
+document.addEventListener('pjax:send', function () {
+
+  // removeEventListener
+  btf.removeGlobalFnEvent('pjax')
+  btf.removeGlobalFnEvent('themeChange')
+
+  document.getElementById('rightside').classList.remove('rightside-show')
+  
+  if (window.aplayers) {
+    for (let i = 0; i < window.aplayers.length; i++) {
+      if (!window.aplayers[i].options.fixed) {
+        window.aplayers[i].destroy()
+      }
+    }
+  }
+
+  typeof typed === 'object' && typed.destroy()
+
+  //reset readmode
+  const $bodyClassList = document.body.classList
+  $bodyClassList.contains('read-mode') && $bodyClassList.remove('read-mode')
+
+  typeof disqusjs === 'object' && disqusjs.destroy()
+})
+
+document.addEventListener('pjax:complete', function () {
+  window.refreshFn()
+
+  document.querySelectorAll('script[data-pjax]').forEach(item => {
+    const newScript = document.createElement('script')
+    const content = item.text || item.textContent || item.innerHTML || ""
+    Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+    newScript.appendChild(document.createTextNode(content))
+    item.parentNode.replaceChild(newScript, item)
+  })
+
+  GLOBAL_CONFIG.islazyload && window.lazyLoadInstance.update()
+
+  typeof panguInit === 'function' && panguInit()
+
+  // google analytics
+  typeof gtag === 'function' && gtag('config', '', {'page_path': window.location.pathname});
+
+  // baidu analytics
+  typeof _hmt === 'object' && _hmt.push(['_trackPageview',window.location.pathname]);
+
+  typeof loadMeting === 'function' && document.getElementsByClassName('aplayer').length && loadMeting()
+
+  // prismjs
+  typeof Prism === 'object' && Prism.highlightAll()
+})
+
+document.addEventListener('pjax:error', e => {
+  if (e.request.status === 404) {
+    pjax.loadUrl('/404.html')
+  }
+})</script><script async="" data-pjax="" src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
